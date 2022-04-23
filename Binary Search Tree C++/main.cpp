@@ -125,6 +125,7 @@ class BST{
             showTrunks(t->prev);
             cout<<t->str;
         }
+
         void printTree(TreeNode *tree, Trunk *prev,bool isLeft){
             if(root==NULL){
                 return;
@@ -151,6 +152,38 @@ class BST{
 
             printTree(root->left, trunk, false);
         }
+
+        TreeNode *iterativeSearch(int val){
+            if(root==NULL){
+                return NULL;
+            }else{
+                TreeNode *temp=root;
+                while(temp!=NULL){
+                    if(val==temp->value){
+                        return temp;
+                        break;
+                    }else if(val<temp->value){
+                        temp=temp->left;
+                    }else{
+                        temp=temp->right;
+                    }
+                }
+                return NULL;
+            }
+        }
+        int heightOfBST(TreeNode * tree){
+            if(tree==NULL){
+                return -1;
+            }else{
+                int leftHeight=heightOfBST(tree->left);
+                int rightHeight=heightOfBST(tree->right);
+                if(leftHeight>rightHeight){
+                    return(leftHeight+1);
+                }else{
+                    return(rightHeight+1);
+                }
+            }
+        }
 };
 
 
@@ -158,6 +191,7 @@ int main(){
     BST obj;
     int val;
     int option;
+    int treeHeight;
     do{
         cout<<endl;
         cout<<endl;
@@ -170,13 +204,14 @@ int main(){
         cout<<"5. Perform PreOrder Traversal"<<endl;
         cout<<"6. Perform InOrder Traversal"<<endl;
         cout<<"7. Perform PostOrder Traversal"<<endl;
-        cout<<"8. Clear Screen"<<endl;
+        cout<<"8. Find the height of the BST"<<endl;
+        cout<<"9. Clear Screen"<<endl;
         cout<<"0. Exit Program"<<endl;
         cout<<endl;
         cout<<"Enter your choice:";
         cin>>option;
 
-
+        TreeNode *newNode=new TreeNode();
         switch (option)
         {
 
@@ -203,6 +238,16 @@ int main(){
             case 2:
                 cout<<endl;
                 cout<<"You are in the search Node Operation!"<<endl;
+                int valueToSearch;
+                cout<<"Enter a value to search in the binary tree: "<<endl;
+                cin>>valueToSearch;
+
+                newNode=obj.iterativeSearch(valueToSearch);
+                if(newNode!=NULL){
+                    cout<<valueToSearch<<" was found in the BST"<<endl;
+                }else{
+                    cout<<valueToSearch<<" was not found in the BST"<<endl;
+                }
                 break;
             case 3:
                 cout<<endl;
@@ -212,7 +257,7 @@ int main(){
                 cout<<endl;
                 cout<<"Printing BST Values"<<endl;
                 obj.print2D(obj.root,4);
-                obj.printTree(obj.root,NULL,false);
+                //obj.printTree(obj.root,NULL,false);
                 break;
             case 5:
                 cout<<endl;
@@ -230,6 +275,12 @@ int main(){
                 obj.postOrderTraversal(obj.root);
                 break;
             case 8:
+                cout<<endl;
+                cout<<"Finding the height of the tree...."<<endl;
+                treeHeight=obj.heightOfBST(obj.root);
+                cout<<"Height of the tree is: "<<treeHeight<<endl;
+                break;
+            case 9:
                 cout<<endl;
                 //system("cls");
                 break;
