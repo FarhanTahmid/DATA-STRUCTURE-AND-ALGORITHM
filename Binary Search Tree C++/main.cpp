@@ -184,6 +184,22 @@ class BST{
                 }
             }
         }
+        void breadthFirstTraversal(TreeNode *tree){
+            int height=heightOfBST(tree);
+            for(int i=0;i<=height;i++){
+                printLevel(tree,i);
+            }
+        }
+        void printLevel(TreeNode *tree,int level){
+            if(tree==NULL){
+                return;
+            }else if(level==0){
+                cout<<tree->value<<" "<<endl;
+            }else{
+                printLevel(tree->left,level-1);
+                printLevel(tree->right,level-1);
+            }
+        }
 };
 
 
@@ -191,7 +207,7 @@ int main(){
     BST obj;
     int val;
     int option;
-    int treeHeight;
+    int treeHeight;     
     do{
         cout<<endl;
         cout<<endl;
@@ -204,8 +220,9 @@ int main(){
         cout<<"5. Perform PreOrder Traversal"<<endl;
         cout<<"6. Perform InOrder Traversal"<<endl;
         cout<<"7. Perform PostOrder Traversal"<<endl;
-        cout<<"8. Find the height of the BST"<<endl;
-        cout<<"9. Clear Screen"<<endl;
+        cout<<"8. Perform Breadth First(BFS) Traversal"<<endl;
+        cout<<"9. Find the height of the BST"<<endl;
+        cout<<"10. Clear Screen"<<endl;
         cout<<"0. Exit Program"<<endl;
         cout<<endl;
         cout<<"Enter your choice:";
@@ -276,11 +293,16 @@ int main(){
                 break;
             case 8:
                 cout<<endl;
+                cout<<"The BFS Traversal is: "<<endl;
+                obj.breadthFirstTraversal(obj.root);
+                break;
+            case 9:
+                cout<<endl;
                 cout<<"Finding the height of the tree...."<<endl;
                 treeHeight=obj.heightOfBST(obj.root);
                 cout<<"Height of the tree is: "<<treeHeight<<endl;
                 break;
-            case 9:
+            case 10:
                 cout<<endl;
                 //system("cls");
                 break;
