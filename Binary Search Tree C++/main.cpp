@@ -194,11 +194,42 @@ class BST{
             if(tree==NULL){
                 return;
             }else if(level==0){
-                cout<<tree->value<<" "<<endl;
+                cout<<tree->value<<" ";
             }else{
                 printLevel(tree->left,level-1);
                 printLevel(tree->right,level-1);
             }
+        }
+        TreeNode *minValueNode(TreeNode *node){
+            TreeNode *current=node;
+            while(current->left != NULL){
+                current=current->left;
+            }
+            return current;
+        }
+        TreeNode *deleteNode(TreeNode *tree,int value){
+            if(tree==NULL){
+                return tree;
+            }else if(value<tree->value){ //for if value is smaller go for left subtree
+                tree->left=deleteNode(tree->left,value);
+            }else if(value>tree->value){ //for if value is larger go for right subtree
+                tree->right=deleteNode(tree->right,value);
+            }else{ //for if value matches
+                if(tree->left==NULL){ //to delete the node which has no child or only one right child
+                    TreeNode *temp=tree->right;
+                    delete tree;
+                    return temp;
+                }else if(tree->right==NULL){ //to delete the node which has only one left child
+                    TreeNode *temp=tree->left;
+                    delete tree;
+                    return temp;
+                }else{ //to delete the node which has both right and left child
+                    TreeNode *temp=minValueNode(tree->right);
+                    tree->value=temp->value;
+                    tree->right=deleteNode(tree->right,temp->value);
+                }
+            }
+            return tree;
         }
 };
 
@@ -207,7 +238,7 @@ int main(){
     BST obj;
     int val;
     int option;
-    int treeHeight;     
+    int treeHeight;
     do{
         cout<<endl;
         cout<<endl;
@@ -238,7 +269,8 @@ int main(){
                 break;
 
             case 1:
-                cout<<endl;
+                {
+                    cout<<endl;
                 cout<<"You are in the insert Node Operation!"<<endl;
                 cout<<endl;
                 cout<<"Enter how many values you want to enter in the BST:";
@@ -252,8 +284,10 @@ int main(){
                 }
                 cout<<endl;
                 break;
+                }
             case 2:
-                cout<<endl;
+                {
+                    cout<<endl;
                 cout<<"You are in the search Node Operation!"<<endl;
                 int valueToSearch;
                 cout<<"Enter a value to search in the binary tree: "<<endl;
@@ -266,51 +300,78 @@ int main(){
                     cout<<valueToSearch<<" was not found in the BST"<<endl;
                 }
                 break;
+                }
             case 3:
-                cout<<endl;
+                {
+                    cout<<endl;
                 cout<<"You are in the delete Node Operation!"<<endl;
+                cout<<"Enter the value you want to delete:";
+                int valueToDelete;
+                cin>>valueToDelete;
+                TreeNode *newNode=new TreeNode();
+                newNode=obj.iterativeSearch(valueToDelete);
+                if(newNode==NULL){
+                    cout<<"There is no value as "<<valueToDelete<<" in the BST"<<endl;cout<<"Cannot perform Delete Operation!!"<<endl;
+                }else{
+                    obj.deleteNode(obj.root,valueToDelete);
+                    cout<<valueToDelete<<" is deleted from the BST!"<<endl;
+                }
                 break;
+                }
             case 4:
-                cout<<endl;
-                cout<<"Printing BST Values"<<endl;
-                obj.print2D(obj.root,4);
-                //obj.printTree(obj.root,NULL,false);
-                break;
+                {
+                    cout<<endl;
+                    cout<<"Printing BST Values"<<endl;
+                    obj.print2D(obj.root,4);
+                    //obj.printTree(obj.root,NULL,false);
+                    break;
+                }
+
             case 5:
-                cout<<endl;
+                {
+                    cout<<endl;
                 cout<<"The PreOrder Traversal is: "<<endl;
                 obj.preOrderTraversal(obj.root);
                 break;
+                }
             case 6:
-                cout<<endl;
+                {
+                    cout<<endl;
                 cout<<"The InOrder Traversal is: "<<endl;
                 obj.inOrderTraversal(obj.root);
                 break;
+                }
             case 7:
-                cout<<endl;
+                {
+                    cout<<endl;
                 cout<<"The PostOrder Traversal is: "<<endl;
                 obj.postOrderTraversal(obj.root);
                 break;
+                }
             case 8:
-                cout<<endl;
+                {
+                    cout<<endl;
                 cout<<"The BFS Traversal is: "<<endl;
                 obj.breadthFirstTraversal(obj.root);
                 break;
+                }
             case 9:
-                cout<<endl;
+                {
+                    cout<<endl;
                 cout<<"Finding the height of the tree...."<<endl;
                 treeHeight=obj.heightOfBST(obj.root);
                 cout<<"Height of the tree is: "<<treeHeight<<endl;
                 break;
+                }
             case 10:
-                cout<<endl;
-                //system("cls");
+                {
+                    cout<<endl;
+                system("cls");
                 break;
+                }
             default:
                 break;
         }
-
-
     }while(option!=0);
 
 }
